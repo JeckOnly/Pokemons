@@ -7,6 +7,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
+
+// TODO 配置一下字体
 val Typography = Typography(
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
