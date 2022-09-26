@@ -1,4 +1,4 @@
-package com.jeckonly.core_model.dto.pokemon
+package com.jeckonly.core_model.dto.pokemondetail
 
 /**
  * @param name 持有物品的名称

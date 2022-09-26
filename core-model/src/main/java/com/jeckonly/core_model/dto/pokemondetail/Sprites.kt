@@ -1,4 +1,4 @@
-package com.jeckonly.core_model.dto.pokemon
+package com.jeckonly.core_model.dto.pokemondetail
 
 data class Sprites(
     val back_default: String,

@@ -1,4 +1,4 @@
-package com.jeckonly.core_model.dto.pokemon
+package com.jeckonly.core_model.dto.pokemondetail
 
 import com.google.gson.annotations.SerializedName
 

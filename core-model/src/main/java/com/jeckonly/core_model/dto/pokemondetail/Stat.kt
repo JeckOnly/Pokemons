@@ -1,4 +1,4 @@
-package com.jeckonly.core_model.dto.pokemon
+package com.jeckonly.core_model.dto.pokemondetail
 
 data class Stat(
     val base_stat: Int,

@@ -1,9 +1,9 @@
-package com.jeckonly.core_model.dto.pokemon
+package com.jeckonly.core_model.dto.pokemondetail
 
 /**
  * api返回的宝可梦模型
  */
-data class PokemonDto(
+data class PokemonDetailDto(
     val abilities: List<Ability>,
     val base_experience: Int,
     val game_indices: List<GameIndice>,

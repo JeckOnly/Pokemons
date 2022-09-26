@@ -1,4 +1,4 @@
-package com.jeckonly.core_model.dto.pokemon
+package com.jeckonly.core_model.dto.pokemondetail
 
 /**
  * @param is_hidden 是否隐藏能力
