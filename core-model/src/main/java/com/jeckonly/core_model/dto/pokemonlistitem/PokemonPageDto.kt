@@ -1,8 +1,8 @@
 package com.jeckonly.core_model.dto.pokemonlistitem
 
-data class PokemonPageInfo(
+data class PokemonPageDto(
     val count: Int,
     val next: String,
     val previous: String,
-    val results: List<Result>
+    val results: List<PokemonInfo>
 )
