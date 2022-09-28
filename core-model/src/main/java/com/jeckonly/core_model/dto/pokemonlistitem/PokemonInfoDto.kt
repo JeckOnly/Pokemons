@@ -1,6 +1,6 @@
 package com.jeckonly.core_model.dto.pokemonlistitem
 
-data class PokemonInfo(
+data class PokemonInfoDto(
     val name: String,
     val url: String
 )

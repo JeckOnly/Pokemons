@@ -19,14 +19,17 @@ class PokemonClient @Inject constructor(
      * @param page 从第1页开始
      */
     suspend fun fetchPokemonList(page: Int): ApiResponse<PokemonPageDto> {
-
         return pokeService.fetchPokemonPage(
-            limit = 20,
-            offset = (page - 1) * 20
+            limit = PAGING_SIZE,
+            offset = (page - 1) * PAGING_SIZE
         )
     }
 
     suspend fun fetchPokemonDetail(name: String): ApiResponse<PokemonDetailDto> {
         return pokeService.fetchPokemonDetail(name)
+    }
+
+    companion object {
+        private const val PAGING_SIZE = 20
     }
 }
