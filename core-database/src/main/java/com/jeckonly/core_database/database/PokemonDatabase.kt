@@ -8,8 +8,8 @@ import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
 
 @Database(
     entities = [PokemonInfoEntity::class, ],
-    version = 2,
-    exportSchema = true
+    version = 1,
+    exportSchema = false
 )
 abstract class PokemonDatabase : RoomDatabase() {
 
