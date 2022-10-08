@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Pokemons</string>
+    <string name="app_name">Pokedex</string>
+    <string name="how_to_search">Search for a Pokemon by name or using its National Pokedex number</string>
+    <string name="searchbar_placeholder">Name or number</string>
 </resources>

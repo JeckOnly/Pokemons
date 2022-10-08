@@ -11,6 +11,8 @@ val Blue10 = Color(0xff2e3159)
 val Blue8 = Color(0xff5d5f7e)
 val Red10 = Color(0xffff9f7b)
 
-val Gray5 = Color(0xff999eab)
+val Gray10 = Color(0xFF444242)
+val Gray9 = Color(0xFF7d7f95)
+val Gray5 = Color(0xFFF1EFEF)
 
 
