@@ -16,16 +16,17 @@ private val DarkColorPalette = darkColors(
 
 // TODO 设置白天主题 先
 private val LightColorPalette = lightColors(
-    primary = Blue10,
-    primaryVariant = Blue9,
-
+    primary = Blue8,
+    primaryVariant = Blue10,
     background = Color.White,
+    surface = Color.White,
+    onSurface = Blue10,
+    onBackground = Blue10,
+    error = Red10,
+    onError = Color.Black
     /* Other default colors to override
     onPrimary = Color.White,
     secondary = Teal200,
-    surface = Color.White,
-    onSurface = Color.Black,
-    onBackground = Color.Black,
     onSecondary = Color.Black,
     */
 )
