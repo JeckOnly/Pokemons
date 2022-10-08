@@ -7,8 +7,8 @@ import com.jeckonly.pokemons.navigation.PokeNavDestination
 import com.jeckonly.pokemons.presentation.home.HomeRoute
 import com.jeckonly.pokemons.presentation.splash.SplashRoute
 
-fun NavGraphBuilder.homeGraph(navController: NavController) {
+fun NavGraphBuilder.homeGraph() {
     composable(route = PokeNavDestination.HomeDestination.route) {
-        HomeRoute(navController)
+        HomeRoute()
     }
 }

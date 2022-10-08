@@ -7,13 +7,14 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// TODO
+// TODO 设置黑夜主题 后
 private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200
 )
 
+// TODO 设置白天主题 先
 private val LightColorPalette = lightColors(
     primary = Blue10,
     primaryVariant = Blue9,

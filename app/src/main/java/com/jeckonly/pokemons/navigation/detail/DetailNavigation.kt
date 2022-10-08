@@ -7,8 +7,8 @@ import com.jeckonly.pokemons.navigation.PokeNavDestination
 import com.jeckonly.pokemons.presentation.detail.DetailRoute
 import com.jeckonly.pokemons.presentation.splash.SplashRoute
 
-fun NavGraphBuilder.detailGraph(navController: NavController) {
+fun NavGraphBuilder.detailGraph() {
     composable(route = PokeNavDestination.DetailDestination.route) {
-        DetailRoute(navController)
+        DetailRoute()
     }
 }

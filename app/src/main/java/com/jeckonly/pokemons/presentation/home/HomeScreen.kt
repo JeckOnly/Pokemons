@@ -7,10 +7,6 @@ import androidx.navigation.NavController
 import com.jeckonly.pokemons.navigation.PokeNavDestination
 
 @Composable
-fun HomeRoute(navController: NavController) {
-    Button(onClick = {
-        navController.navigate(PokeNavDestination.DetailDestination.route)
-    }) {
-        Text(text = "jump to detail")
-    }
+fun HomeRoute() {
+
 }

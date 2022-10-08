@@ -17,9 +17,8 @@ fun PokeNavGraph(modifier: Modifier = Modifier) {
         startDestination = PokeNavDestination.SplashDestination.route,
         modifier = modifier
     ) {
-        // TODO 修改Composable参数使得不用传navController
-        splashGraph(navController)
-        homeGraph(navController)
-        detailGraph(navController)
+        splashGraph { PokeNavDestination.HomeDestination.jumpToHome(navController) }
+        homeGraph()
+        detailGraph()
     }
 }

@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import com.jeckonly.pokemons.navigation.PokeNavDestination
 import com.jeckonly.pokemons.presentation.splash.SplashRoute
 
-fun NavGraphBuilder.splashGraph(navController: NavController) {
+fun NavGraphBuilder.splashGraph(onJumpToHome: () -> Unit) {
     composable(route = PokeNavDestination.SplashDestination.route) {
-        SplashRoute(navController)
+        SplashRoute(onJumpToHome)
     }
 }
