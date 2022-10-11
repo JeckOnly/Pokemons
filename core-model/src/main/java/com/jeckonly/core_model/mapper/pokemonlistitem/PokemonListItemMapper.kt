@@ -10,6 +10,12 @@ fun PokemonInfoDto.toPokemonInfoUI(): PokemonInfoUI {
     )
 }
 
+fun PokemonInfoDto.toPokemonInfoEntity(page: Int): PokemonInfoEntity {
+    return PokemonInfoEntity(
+        name, url, page
+    )
+}
+
 fun PokemonInfoEntity.toPokemonInfoUI(): PokemonInfoUI {
     return PokemonInfoUI(
         name, url

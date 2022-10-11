@@ -36,6 +36,8 @@ fun HomeRoute(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltView
 fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
+
+    // TODO 状态处理
     var text by remember {
         mutableStateOf("")
     }
