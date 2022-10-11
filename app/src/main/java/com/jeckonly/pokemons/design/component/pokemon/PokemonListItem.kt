@@ -43,6 +43,7 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, modifier: Modifier = Modifier)
         Column(
             modifier = Modifier.padding(10.dp)
         ) {
+            // TODO 没有网络的时候为白色，placeholder不起作用
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .allowHardware(false)
