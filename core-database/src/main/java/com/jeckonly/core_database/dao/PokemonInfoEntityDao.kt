@@ -17,4 +17,6 @@ interface PokemonInfoEntityDao {
 
     @Query("SELECT * FROM PokemonInfoEntity WHERE page <= :page_")
     suspend fun getAllPokemonListLessThanPage(page_: Int): List<PokemonInfoEntity>
+
+    // TODO 添加对id和name的搜索
 }

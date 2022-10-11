@@ -6,18 +6,25 @@ import com.jeckonly.core_model.ui.PokemonInfoUI
 
 fun PokemonInfoDto.toPokemonInfoUI(): PokemonInfoUI {
     return PokemonInfoUI(
-        name, url
+        name = name,
+        url = url,
+        id = id
     )
 }
 
 fun PokemonInfoDto.toPokemonInfoEntity(page: Int): PokemonInfoEntity {
     return PokemonInfoEntity(
-        name, url, page
+        name = name,
+        url = url,
+        page = page,
+        id = id
     )
 }
 
 fun PokemonInfoEntity.toPokemonInfoUI(): PokemonInfoUI {
     return PokemonInfoUI(
-        name, url
+        name = name,
+        url = url,
+        id = id
     )
 }
