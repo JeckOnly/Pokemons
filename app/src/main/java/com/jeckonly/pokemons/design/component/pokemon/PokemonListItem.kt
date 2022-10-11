@@ -81,7 +81,13 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, modifier: Modifier = Modifier)
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = pokemonInfoUI.id.toString(),
+                color = MaterialTheme.colors.onSurface,
+                fontSize = 14.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
         }
     }
 }
@@ -92,13 +98,14 @@ fun PreviewPokemonListItem() {
     val pokemonInfoUI = remember {
         PokemonInfoUI(
             "spearow",
-            "https://pokeapi.co/api/v2/pokemon/21/"
+            "https://pokeapi.co/api/v2/pokemon/21/",
+            21
         )
     }
     PokemonListItem(
         pokemonInfoUI,
         Modifier
             .width(100.dp)
-            .height(150.dp)
+            .wrapContentHeight()
     )
 }

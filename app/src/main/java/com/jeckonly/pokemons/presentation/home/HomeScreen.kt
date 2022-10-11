@@ -45,11 +45,11 @@ fun HomeScreen(
 
     val fakePokemonInfoItems = remember {
         listOf<PokemonInfoUI>(
-            PokemonInfoUI(name = "spearow", "https://pokeapi.co/api/v2/pokemon/21/"),
-            PokemonInfoUI(name = "fearow", "https://pokeapi.co/api/v2/pokemon/22/"),
-            PokemonInfoUI(name = "ekans", "https://pokeapi.co/api/v2/pokemon/23/"),
-            PokemonInfoUI(name = "arbok", "https://pokeapi.co/api/v2/pokemon/24/"),
-            PokemonInfoUI(name = "pikachu", "https://pokeapi.co/api/v2/pokemon/25/"),
+            PokemonInfoUI(name = "spearow", "https://pokeapi.co/api/v2/pokemon/21/", 21),
+            PokemonInfoUI(name = "fearow", "https://pokeapi.co/api/v2/pokemon/22/", 22),
+            PokemonInfoUI(name = "ekans", "https://pokeapi.co/api/v2/pokemon/23/", 23),
+            PokemonInfoUI(name = "arbok", "https://pokeapi.co/api/v2/pokemon/24/", 24),
+            PokemonInfoUI(name = "pikachu", "https://pokeapi.co/api/v2/pokemon/25/", 25),
         )
     }
 
@@ -101,7 +101,7 @@ fun HomeScreen(
                     )
                     .wrapContentHeight()
             )
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(45.dp))
             // pokemon list
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
