@@ -48,7 +48,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_pokemonball),
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = null,
             modifier = Modifier.size(120.dp)
         )

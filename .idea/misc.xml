@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/study/projects/Pokemons/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.163" />
+        <entry key="..\:/study/projects/Pokemons/app/src/main/res/drawable/ic_launcher_background.xml" value="0.163" />
+        <entry key="..\:/study/projects/Pokemons/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.163" />
         <entry key="..\:/study/projects/Pokemons/app/src/main/res/drawable/ic_pokemonball.xml" value="0.179" />
       </map>
     </option>
