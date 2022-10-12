@@ -15,17 +15,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
-import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.jeckonly.core_model.ui.PokemonInfoUI
+import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.pokemons.R
-import com.jeckonly.pokemons.design.theme.Blue10
 import com.jeckonly.util.LogUtil
 
 @Composable

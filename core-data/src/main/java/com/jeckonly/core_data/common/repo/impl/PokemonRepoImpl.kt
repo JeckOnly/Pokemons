@@ -8,7 +8,7 @@ import com.jeckonly.core_model.dto.pokemonlistitem.PokemonPageDto
 import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
 import com.jeckonly.core_model.mapper.pokemonlistitem.toPokemonInfoEntity
 import com.jeckonly.core_model.mapper.pokemonlistitem.toPokemonInfoUI
-import com.jeckonly.core_model.ui.PokemonInfoUI
+import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.core_remote.PokemonClient
 import com.skydoves.sandwich.*
 import kotlinx.coroutines.Dispatchers

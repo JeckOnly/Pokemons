@@ -1,4 +1,4 @@
-package com.jeckonly.core_model.ui
+package com.jeckonly.core_model.ui.home
 
 data class PokemonInfoUI(
     val name: String,
