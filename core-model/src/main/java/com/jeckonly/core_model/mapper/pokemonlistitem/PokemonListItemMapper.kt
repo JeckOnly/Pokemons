@@ -2,13 +2,16 @@ package com.jeckonly.core_model.mapper.pokemonlistitem
 
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
 import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
-import com.jeckonly.core_model.ui.PokemonInfoUI
+import com.jeckonly.core_model.ui.home.PokemonInfoUI
 
+/**
+ * 这个函数不应该被使用，应遵循单一数据来源
+ */
 fun PokemonInfoDto.toPokemonInfoUI(): PokemonInfoUI {
     return PokemonInfoUI(
         name = name,
         url = url,
-        id = id
+        id = getIdFromUrl(url)
     )
 }
 
@@ -17,7 +20,7 @@ fun PokemonInfoDto.toPokemonInfoEntity(page: Int): PokemonInfoEntity {
         name = name,
         url = url,
         page = page,
-        id = id
+        id = getIdFromUrl(url)
     )
 }
 

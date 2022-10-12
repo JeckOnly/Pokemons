@@ -1,5 +1,6 @@
 package com.jeckonly.core_remote
 
+import com.jeckonly.core_model.dto.NetworkConstant
 import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonPageDto
 import com.jeckonly.core_remote.api.PokeService
@@ -20,16 +21,12 @@ class PokemonClient @Inject constructor(
      */
     suspend fun fetchPokemonList(page: Int): ApiResponse<PokemonPageDto> {
         return pokeService.fetchPokemonPage(
-            limit = PAGING_SIZE,
-            offset = (page - 1) * PAGING_SIZE
+            limit = NetworkConstant.PAGING_SIZE,
+            offset = (page - 1) * NetworkConstant.PAGING_SIZE
         )
     }
 
     suspend fun fetchPokemonDetail(name: String): ApiResponse<PokemonDetailDto> {
         return pokeService.fetchPokemonDetail(name)
-    }
-
-    companion object {
-        private const val PAGING_SIZE = 20
     }
 }
