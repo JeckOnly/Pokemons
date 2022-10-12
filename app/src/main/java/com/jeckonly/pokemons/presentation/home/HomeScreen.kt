@@ -25,6 +25,7 @@ import com.jeckonly.pokemons.R
 import com.jeckonly.pokemons.design.component.pokemon.PokemonListItem
 import com.jeckonly.pokemons.design.component.textfield.SearchBar
 import com.jeckonly.pokemons.design.theme.Blue8
+import com.jeckonly.util.LogUtil
 
 @Composable
 fun HomeRoute(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
@@ -92,6 +93,9 @@ fun HomeScreen(
                 text = text,
                 onValueChange = {
                     text = it
+                },
+                onHelpIconClicked = {
+                    LogUtil.d("help icon clicked")
                 },
                 modifier = Modifier
                     .fillMaxWidth()

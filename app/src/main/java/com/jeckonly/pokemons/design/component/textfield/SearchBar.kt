@@ -1,5 +1,6 @@
 package com.jeckonly.pokemons.design.component.textfield
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -23,7 +24,8 @@ import com.jeckonly.pokemons.design.theme.Gray9
 fun SearchBar(
     text: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    onHelpIconClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     Surface(
@@ -32,7 +34,7 @@ fun SearchBar(
         color = Gray5,
     ) {
         ConstraintLayout {
-            val (searchIcon, textField) = createRefs()
+            val (searchIcon, textField, helpIcon) = createRefs()
 
             Icon(
                 painter = painterResource(R.drawable.icon_search_line),
@@ -62,11 +64,27 @@ fun SearchBar(
                 modifier = Modifier.constrainAs(textField) {
                     start.linkTo(searchIcon.end, 10.dp)
                     top.linkTo(searchIcon.top)
-                    end.linkTo(parent.end, 10.dp)
+                    end.linkTo(helpIcon.start, 10.dp)
                     bottom.linkTo(searchIcon.bottom)
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
                 }.fillMaxWidth()
+            )
+
+            Icon(
+                painter = painterResource(R.drawable.ic_help),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(helpIcon) {
+                        end.linkTo(parent.end, 15.dp)
+                        top.linkTo(parent.top, 14.dp)
+                        bottom.linkTo(parent.bottom, 14.dp)
+                    }.clickable {
+                        onHelpIconClicked()
+                    }
+                ,
+                tint = Gray9
             )
         }
     }
@@ -82,6 +100,9 @@ fun PreviewSearchBar() {
         text = text,
         onValueChange = {
             text = it
+        },
+        onHelpIconClicked = {
+
         },
         modifier = Modifier
             .fillMaxWidth()
