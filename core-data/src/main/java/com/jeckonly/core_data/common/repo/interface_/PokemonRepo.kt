@@ -9,6 +9,8 @@ interface PokemonRepo {
      *
      */
     fun getAllItemLessThanPage(page: Int): Flow<ResourceState<List<PokemonInfoUI>>>
+
+    fun getPokemonInfoByNameOrId(nameOrId: String): Flow<ResourceState<List<PokemonInfoUI>>>
 }
 
 

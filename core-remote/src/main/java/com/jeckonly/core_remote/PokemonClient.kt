@@ -26,7 +26,10 @@ class PokemonClient @Inject constructor(
         )
     }
 
-    suspend fun fetchPokemonDetail(name: String): ApiResponse<PokemonDetailDto> {
-        return pokeService.fetchPokemonDetail(name)
+    /**
+     * 获取详细的宝可梦信息
+     */
+    suspend fun fetchPokemonDetail(nameOrId: String): ApiResponse<PokemonDetailDto> {
+        return pokeService.fetchPokemonDetail(nameOrId)
     }
 }

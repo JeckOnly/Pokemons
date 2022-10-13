@@ -12,7 +12,10 @@ import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.pokemons.ui_event.home.HomeEvent
 import com.jeckonly.util.LogUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,11 +46,24 @@ class HomeViewModel @Inject constructor(
     var searchText by mutableStateOf("")
         private set
 
+    /**
+     * 管理搜索执行的job
+     */
+    var searchJob: Job? = null
 
+    /**
+     * 管理加载页数执行的job
+     */
+    var loadPageJob: Job? = null
+
+    /**
+     * NOTE 只能被UI层调用
+     */
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.WantMoreItem -> {
-                loadMorePage()
+                // TODO 旧的请求未完成，新的又来了有无bug
+                loadPage()
             }
         }
     }
@@ -56,48 +72,90 @@ class HomeViewModel @Inject constructor(
         searchText = newValue
         if (newValue.isEmpty()) {
             mScreenMode = HomeScreenMode.BrowseMode
+            loadPage()
         } else {
             // not empty
             if (mScreenMode is HomeScreenMode.BrowseMode) {
                 // prevent change it often
                 mScreenMode = HomeScreenMode.SearchMode
             }
+            searchResult(newValue)
         }
     }
 
     /**
-     * 在浏览模式下，加载更多页面
+     * 在浏览模式下，加载 <= page页的所有页面
      */
-    private fun loadMorePage() {
-        LogUtil.d("loadMorePage")
+    private fun loadPage() {
         if (mScreenMode is HomeScreenMode.BrowseMode) {
-            // 浏览模式才请求更多
-            val newPage = mPage.value + 1
-            viewModelScope.launch {
-                pokemonRepo.getAllItemLessThanPage(newPage).collect { resourceState: ResourceState<List<PokemonInfoUI>> ->
-                    when(resourceState) {
-                        is ResourceState.Error -> {
+            searchJob?.cancel()
+            val lastJobCompleted = loadPageJob?.isCompleted ?: true
+            // 如果上一个loadPage任务还在继续，就不添加新任务，这种情况发生在页面滑到底部又上滑又下滑，发送了2次以上WantMoreItem事件
+            if (!lastJobCompleted) return
+            loadPageJob = viewModelScope.launch {
+                // NOTE 防止频繁请求
+                delay(100)
+                pokemonRepo.getAllItemLessThanPage(mPage.value + 1)
+                    .collect { resourceState: ResourceState<List<PokemonInfoUI>> ->
+                        when (resourceState) {
+                            is ResourceState.Error -> {
 
+                            }
+                            is ResourceState.Loading -> {
+
+                            }
+                            is ResourceState.Success -> {
+                                // 只有成功的情况才增加页数啊
+                                mPage.update {
+                                    it + 1
+                                }
+                                if (mScreenMode is HomeScreenMode.BrowseMode) {
+                                    // 再次判断是否是浏览模式，有可能在网络请求过程中已更改为搜索模式
+                                    val newList = resourceState.data ?: emptyList()
+                                    mPokemonItems.update {
+                                        newList
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    /**
+     * 在搜索模式下，查询结果
+     */
+    private fun searchResult(nameOrId: String) {
+        searchJob?.cancel()
+        loadPageJob?.cancel()
+        searchJob = viewModelScope.launch {
+            // NOTE 防止频繁请求
+            delay(100)
+            pokemonRepo.getPokemonInfoByNameOrId(nameOrId)
+                .collect { resourceState: ResourceState<List<PokemonInfoUI>> ->
+                    when (resourceState) {
+                        is ResourceState.Error -> {
+                            if (mScreenMode is HomeScreenMode.SearchMode) {
+                                val message = resourceState.message!!
+                                mPokemonItems.update {
+                                    emptyList()
+                                }
+                            }
                         }
                         is ResourceState.Loading -> {
 
                         }
                         is ResourceState.Success -> {
-                            // 只有成功的情况才增加页数啊
-                            mPage.update {
-                                newPage
-                            }
-                            if (mScreenMode is HomeScreenMode.BrowseMode) {
-                                // 再次判断是否是浏览模式，有可能在网络请求过程中已更改为搜索模式
-                                val newList = resourceState.data ?: emptyList()
+                            if (mScreenMode is HomeScreenMode.SearchMode) {
+                                val list = resourceState.data ?: emptyList()
                                 mPokemonItems.update {
-                                    newList
+                                    list
                                 }
                             }
                         }
                     }
                 }
-            }
         }
     }
 }

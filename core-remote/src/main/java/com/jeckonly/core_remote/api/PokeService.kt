@@ -16,6 +16,6 @@ interface PokeService {
         @Query("offset") offset: Int = 0
     ): ApiResponse<PokemonPageDto>
 
-    @GET("${EndPoint.POKEMON}/{name}")
-    suspend fun fetchPokemonDetail(@Path("name") name: String): ApiResponse<PokemonDetailDto>
+    @GET("${EndPoint.POKEMON}/{nameOrId}")
+    suspend fun fetchPokemonDetail(@Path("nameOrId") nameOrId: String): ApiResponse<PokemonDetailDto>
 }

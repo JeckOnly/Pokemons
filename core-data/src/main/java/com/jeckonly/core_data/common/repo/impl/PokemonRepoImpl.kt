@@ -3,9 +3,11 @@ package com.jeckonly.core_data.common.repo.impl
 import com.jeckonly.core_data.common.repo.interface_.PokemonRepo
 import com.jeckonly.core_database.dao.PokemonInfoEntityDao
 import com.jeckonly.core_model.domain.ResourceState
+import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonPageDto
 import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
+import com.jeckonly.core_model.mapper.pokemondetail.toPokemonInfoUI
 import com.jeckonly.core_model.mapper.pokemonlistitem.toPokemonInfoEntity
 import com.jeckonly.core_model.mapper.pokemonlistitem.toPokemonInfoUI
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
@@ -64,4 +66,32 @@ class PokemonRepoImpl @Inject constructor(
             }
             emit(ResourceState.Loading(false))
         }.flowOn(Dispatchers.Default)
+
+    /**
+     * 根据有无下载好数据库数据，数据来源于网络或数据库
+     *
+     * 若无下载数据库，从网络中查询，最多只有一个结果
+     *
+     * 若已下载数据库，需要判断[nameOrId]是纯数字还是字符串，纯数字就从数据库中查询相同id，最多只有一个结果；字符串就从数据库中模糊匹配，可有多个数据。
+     *
+     * TODO 本地版编写
+     */
+    override fun getPokemonInfoByNameOrId(nameOrId: String): Flow<ResourceState<List<PokemonInfoUI>>> =
+        flow<ResourceState<List<PokemonInfoUI>>> {
+            emit(ResourceState.Loading(true))
+            val response = networkClient.fetchPokemonDetail(nameOrId)
+            response.suspendOnSuccess {
+                val data: PokemonDetailDto = this.data
+                emit(
+                    ResourceState.Success(
+                        listOf(data.toPokemonInfoUI())
+                    )
+                )
+            }.suspendOnFailure {
+                emit(ResourceState.Error(message = message()))
+            }
+            emit(ResourceState.Loading(false))
+        }.flowOn(Dispatchers.Default)
+
+
 }
