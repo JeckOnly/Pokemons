@@ -52,6 +52,8 @@ class HomeViewModel @Inject constructor(
      * lazyListState
      *
      * TODO 要达到[rememberLazyGridState]的同样效果需要保存到SavedStateHandler
+     *
+     * fixme 从搜索模式回来恢复位置
      */
     val listState = LazyGridState()
 
@@ -104,9 +106,7 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * 在浏览模式下，加载 <= page页的所有页面
-     *
-     * fixme 从搜索模式回来时会增加页数
+     * 在浏览模式下，加载 <= [targetPage]页的所有页面
      */
     private fun loadPage(targetPage: Int) {
         if (mScreenMode is HomeScreenMode.BrowseMode) {
