@@ -1,5 +1,7 @@
 package com.jeckonly.pokemons.presentation.home
 
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -47,14 +49,33 @@ class HomeViewModel @Inject constructor(
         private set
 
     /**
+     * lazyListState
+     *
+     * TODO 要达到[rememberLazyGridState]的同样效果需要保存到SavedStateHandler
+     */
+    val listState = LazyGridState()
+
+    private var firstVisibleItemIndex = 0
+    private var firstVisibleItemScrollOffset = 0
+
+    /**
      * 管理搜索执行的job
      */
-    var searchJob: Job? = null
+    private var searchJob: Job? = null
 
     /**
      * 管理加载页数执行的job
      */
-    var loadPageJob: Job? = null
+    private var loadPageJob: Job? = null
+
+    private fun saveListState() {
+        firstVisibleItemIndex = listState.firstVisibleItemIndex
+        firstVisibleItemScrollOffset = listState.firstVisibleItemScrollOffset
+    }
+
+    private suspend fun scrollToLastPosition() {
+        listState.scrollToItem(firstVisibleItemIndex, firstVisibleItemScrollOffset)
+    }
 
     /**
      * NOTE 只能被UI层调用
@@ -62,8 +83,7 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.WantMoreItem -> {
-                // TODO 旧的请求未完成，新的又来了有无bug
-                loadPage()
+                loadPage(mPage.value + 1)
             }
         }
     }
@@ -72,7 +92,7 @@ class HomeViewModel @Inject constructor(
         searchText = newValue
         if (newValue.isEmpty()) {
             mScreenMode = HomeScreenMode.BrowseMode
-            loadPage()
+            loadPage(mPage.value)
         } else {
             // not empty
             if (mScreenMode is HomeScreenMode.BrowseMode) {
@@ -85,8 +105,10 @@ class HomeViewModel @Inject constructor(
 
     /**
      * 在浏览模式下，加载 <= page页的所有页面
+     *
+     * fixme 从搜索模式回来时会增加页数
      */
-    private fun loadPage() {
+    private fun loadPage(targetPage: Int) {
         if (mScreenMode is HomeScreenMode.BrowseMode) {
             searchJob?.cancel()
             val lastJobCompleted = loadPageJob?.isCompleted ?: true
@@ -95,7 +117,7 @@ class HomeViewModel @Inject constructor(
             loadPageJob = viewModelScope.launch {
                 // NOTE 防止频繁请求
                 delay(100)
-                pokemonRepo.getAllItemLessThanPage(mPage.value + 1)
+                pokemonRepo.getAllItemLessThanPage(targetPage)
                     .collect { resourceState: ResourceState<List<PokemonInfoUI>> ->
                         when (resourceState) {
                             is ResourceState.Error -> {
@@ -107,7 +129,7 @@ class HomeViewModel @Inject constructor(
                             is ResourceState.Success -> {
                                 // 只有成功的情况才增加页数啊
                                 mPage.update {
-                                    it + 1
+                                    targetPage
                                 }
                                 if (mScreenMode is HomeScreenMode.BrowseMode) {
                                     // 再次判断是否是浏览模式，有可能在网络请求过程中已更改为搜索模式
