@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeckonly.core_data.common.repo.interface_.PokemonRepo
@@ -12,12 +13,10 @@ import com.jeckonly.core_model.domain.ResourceState
 import com.jeckonly.core_model.ui.home.HomeScreenMode
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.pokemons.ui_event.home.HomeEvent
-import com.jeckonly.util.LogUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,18 +28,18 @@ class HomeViewModel @Inject constructor(
     /**
      * mode
      */
-    private var mScreenMode: HomeScreenMode = HomeScreenMode.BrowseMode
+    private var screenMode: HomeScreenMode = HomeScreenMode.BrowseMode
 
     /**
      * the pokemon items to show
      */
-    private val mPokemonItems: MutableStateFlow<List<PokemonInfoUI>> = MutableStateFlow(emptyList())
-    val pokemonItems: StateFlow<List<PokemonInfoUI>> = mPokemonItems
+    private val _pokemonItems: MutableStateFlow<List<PokemonInfoUI>> = MutableStateFlow(emptyList())
+    val pokemonItems: StateFlow<List<PokemonInfoUI>> = _pokemonItems
 
     /**
      * 浏览模式下当前已加载的最大页面序号，初始值为0
      */
-    private val mPage: MutableStateFlow<Int> = MutableStateFlow(0)
+    private val page: MutableStateFlow<Int> = MutableStateFlow(0)
 
     /**
      * 当前搜索的字符串（name or id），若不为空则为搜索模式
@@ -52,13 +51,38 @@ class HomeViewModel @Inject constructor(
      * lazyListState
      *
      * TODO 要达到[rememberLazyGridState]的同样效果需要保存到SavedStateHandler
-     *
-     * fixme 从搜索模式回来恢复位置
      */
     val listState = LazyGridState()
 
     private var firstVisibleItemIndex = 0
     private var firstVisibleItemScrollOffset = 0
+
+    private var needScrollToLastPosition = false
+
+    /**
+     * 构造一个对于列表元素数量的监听
+     */
+    private val totalItemCountStateFlow = snapshotFlow {
+        listState.layoutInfo
+    }.map {
+        it.totalItemsCount
+    }.distinctUntilChanged().stateIn (
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = 0
+    )
+
+    init {
+        viewModelScope.launch {
+            totalItemCountStateFlow.collect { _ ->
+                // 当列表元素数量改变且需要滚动到原位置时，就滚动
+                if (needScrollToLastPosition) {
+                    scrollToLastPosition()
+                    needScrollToLastPosition = false
+                }
+            }
+        }
+    }
 
     /**
      * 管理搜索执行的job
@@ -70,13 +94,20 @@ class HomeViewModel @Inject constructor(
      */
     private var loadPageJob: Job? = null
 
+    /**
+     * 保存列表的滚动位置
+     */
     private fun saveListState() {
         firstVisibleItemIndex = listState.firstVisibleItemIndex
         firstVisibleItemScrollOffset = listState.firstVisibleItemScrollOffset
     }
 
+    /**
+     * 恢复滚动位置
+     */
     private suspend fun scrollToLastPosition() {
         listState.scrollToItem(firstVisibleItemIndex, firstVisibleItemScrollOffset)
+//        listState.animateScrollToItem(firstVisibleItemIndex, firstVisibleItemScrollOffset) 需要在Composable内的协程中调用
     }
 
     /**
@@ -85,7 +116,7 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.WantMoreItem -> {
-                loadPage(mPage.value + 1)
+                loadPage(page.value + 1)
             }
         }
     }
@@ -93,13 +124,17 @@ class HomeViewModel @Inject constructor(
     fun onSearchTextChanged(newValue: String) {
         searchText = newValue
         if (newValue.isEmpty()) {
-            mScreenMode = HomeScreenMode.BrowseMode
-            loadPage(mPage.value)
+            screenMode = HomeScreenMode.BrowseMode
+            // 标志需要恢复滚动位置了
+            needScrollToLastPosition = true
+            loadPage(page.value)
         } else {
             // not empty
-            if (mScreenMode is HomeScreenMode.BrowseMode) {
-                // prevent change it often
-                mScreenMode = HomeScreenMode.SearchMode
+            // prevent change it often
+            if (screenMode is HomeScreenMode.BrowseMode) {
+                // 保存列表状态
+                saveListState()
+                screenMode = HomeScreenMode.SearchMode
             }
             searchResult(newValue)
         }
@@ -109,7 +144,7 @@ class HomeViewModel @Inject constructor(
      * 在浏览模式下，加载 <= [targetPage]页的所有页面
      */
     private fun loadPage(targetPage: Int) {
-        if (mScreenMode is HomeScreenMode.BrowseMode) {
+        if (screenMode is HomeScreenMode.BrowseMode) {
             searchJob?.cancel()
             val lastJobCompleted = loadPageJob?.isCompleted ?: true
             // 如果上一个loadPage任务还在继续，就不添加新任务，这种情况发生在页面滑到底部又上滑又下滑，发送了2次以上WantMoreItem事件
@@ -128,13 +163,13 @@ class HomeViewModel @Inject constructor(
                             }
                             is ResourceState.Success -> {
                                 // 只有成功的情况才增加页数啊
-                                mPage.update {
+                                page.update {
                                     targetPage
                                 }
-                                if (mScreenMode is HomeScreenMode.BrowseMode) {
+                                if (screenMode is HomeScreenMode.BrowseMode) {
                                     // 再次判断是否是浏览模式，有可能在网络请求过程中已更改为搜索模式
                                     val newList = resourceState.data ?: emptyList()
-                                    mPokemonItems.update {
+                                    _pokemonItems.update {
                                         newList
                                     }
                                 }
@@ -158,9 +193,9 @@ class HomeViewModel @Inject constructor(
                 .collect { resourceState: ResourceState<List<PokemonInfoUI>> ->
                     when (resourceState) {
                         is ResourceState.Error -> {
-                            if (mScreenMode is HomeScreenMode.SearchMode) {
+                            if (screenMode is HomeScreenMode.SearchMode) {
                                 val message = resourceState.message!!
-                                mPokemonItems.update {
+                                _pokemonItems.update {
                                     emptyList()
                                 }
                             }
@@ -169,9 +204,9 @@ class HomeViewModel @Inject constructor(
 
                         }
                         is ResourceState.Success -> {
-                            if (mScreenMode is HomeScreenMode.SearchMode) {
+                            if (screenMode is HomeScreenMode.SearchMode) {
                                 val list = resourceState.data ?: emptyList()
-                                mPokemonItems.update {
+                                _pokemonItems.update {
                                     list
                                 }
                             }
