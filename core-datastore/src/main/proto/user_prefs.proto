@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.jeckonly.core_datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  /**
+   * 默认值为0，表示还没开始下载
+   * 设为1，表示点击过下载了，但还没有下载完
+   * 设为2，表示已下载完成
+   */
+  int32 databaseDownloadState = 1;
+
+  /**
+   * 有可能下载任务中途退出，这里记录已下载到多少页，比如值为6，代表1——5页已下载
+   */
+  int32 databaseDownloadPage = 2;
+
+}
