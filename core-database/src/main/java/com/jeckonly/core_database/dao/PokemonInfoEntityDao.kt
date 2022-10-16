@@ -28,5 +28,5 @@ interface PokemonInfoEntityDao {
      * 根据字符串模糊匹配名字
      */
     @Query("SELECT * FROM PokemonInfoEntity WHERE name LIKE '%' || :search || '%'")
-    suspend fun getPokemonById(search: String): List<PokemonInfoEntity>
+    suspend fun getPokemonByLikeName(search: String): List<PokemonInfoEntity>
 }
