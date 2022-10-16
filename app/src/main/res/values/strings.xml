@@ -2,4 +2,12 @@
     <string name="app_name">Pokedex</string>
     <string name="how_to_search">Search for a Pokemon by name or using its National Pokedex number</string>
     <string name="searchbar_placeholder">Name or number</string>
+    <string name="exact_mode">Exact Mode</string>
+    <string name="fuzzy_mode">Fuzzy Mode</string>
+    <string name="exact_mode_words">You can now only do a precise search by name or id, such as 1 or bulbasaur, and get bulbasaur. To use fuzzy search, download the database.</string>
+    <string name="fuzzy_mode_words">You can now do a fuzzy search using a name or id, such as 1 or bul, and get bulbasaur.</string>
+    <string name="later">Later</string>
+    <string name="download">Download</string>
+    <string name="get_it">Get it</string>
+    <string name="downloading">You are downloading!</string>
 </resources>
