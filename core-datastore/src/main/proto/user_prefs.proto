@@ -11,9 +11,4 @@ message UserPreferences {
    */
   int32 databaseDownloadState = 1;
 
-  /**
-   * 有可能下载任务中途退出，这里记录已下载到多少页，比如值为6，代表1——5页已下载
-   */
-  int32 databaseDownloadPage = 2;
-
 }
