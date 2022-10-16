@@ -2,6 +2,8 @@ package com.jeckonly.core_data.common.repo.impl
 
 import com.jeckonly.core_data.common.repo.interface_.PokemonRepo
 import com.jeckonly.core_database.dao.PokemonInfoEntityDao
+import com.jeckonly.core_datastore.UserPrefsDataSource
+import com.jeckonly.core_model.datastore.DownloadState
 import com.jeckonly.core_model.domain.ResourceState
 import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
@@ -23,7 +25,8 @@ import javax.inject.Singleton
 @Singleton
 class PokemonRepoImpl @Inject constructor(
     private val dao: PokemonInfoEntityDao,
-    private val networkClient: PokemonClient
+    private val networkClient: PokemonClient,
+    private val dataSource: UserPrefsDataSource
 ) : PokemonRepo {
 
     /**
@@ -79,19 +82,42 @@ class PokemonRepoImpl @Inject constructor(
     override fun getPokemonInfoByNameOrId(nameOrId: String): Flow<ResourceState<List<PokemonInfoUI>>> =
         flow<ResourceState<List<PokemonInfoUI>>> {
             emit(ResourceState.Loading(true))
-            val response = networkClient.fetchPokemonDetail(nameOrId)
-            response.suspendOnSuccess {
-                val data: PokemonDetailDto = this.data
-                emit(
-                    ResourceState.Success(
-                        listOf(data.toPokemonInfoUI())
+            if (dataSource.getDownloadState() != DownloadState.FinishedDownload) {
+                // 还没有下载完成数据库
+                val response = networkClient.fetchPokemonDetail(nameOrId)
+                response.suspendOnSuccess {
+                    val data: PokemonDetailDto = this.data
+                    emit(
+                        ResourceState.Success(
+                            listOf(data.toPokemonInfoUI())
+                        )
                     )
-                )
-            }.suspendOnFailure {
-                emit(ResourceState.Error(message = message()))
+                }.suspendOnFailure {
+                    emit(ResourceState.Error(message = message()))
+                }
+            } else {
+                // 数据库已下载完成
+                if (nameOrId.isId()) {
+                    val response = dao.getPokemonById(nameOrId.toInt())
+                    emit(ResourceState.Success(response.map {
+                        it.toPokemonInfoUI()
+                    }))
+                } else {
+                    val response = dao.getPokemonByLikeName(nameOrId)
+                    emit(ResourceState.Success(response.map {
+                        it.toPokemonInfoUI()
+                    }))
+                }
             }
             emit(ResourceState.Loading(false))
         }.flowOn(Dispatchers.Default)
 
-
+    private fun String.isId(): Boolean {
+        return try {
+            this.toInt()
+            true
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
 }
