@@ -77,7 +77,6 @@ class PokemonRepoImpl @Inject constructor(
      *
      * 若已下载数据库，需要判断[nameOrId]是纯数字还是字符串，纯数字就从数据库中查询相同id，最多只有一个结果；字符串就从数据库中模糊匹配，可有多个数据。
      *
-     * TODO 本地版编写
      */
     override fun getPokemonInfoByNameOrId(nameOrId: String): Flow<ResourceState<List<PokemonInfoUI>>> =
         flow<ResourceState<List<PokemonInfoUI>>> {
