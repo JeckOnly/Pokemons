@@ -96,7 +96,7 @@ dependencies {
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    implementation "androidx.hilt:hilt-navigation-compose:$androidx_hilt_version"
 
     // coil
     implementation "io.coil-kt:coil-compose:2.1.0"
@@ -105,6 +105,14 @@ dependencies {
 
     // splash screen兼容
     implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    // work with WorkManager
+    implementation "androidx.hilt:hilt-work:$androidx_hilt_version"
+    // When using Kotlin.
+    kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
+
+    // WorkManager: Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 }
