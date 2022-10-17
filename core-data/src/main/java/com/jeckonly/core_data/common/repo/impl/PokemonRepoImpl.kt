@@ -3,7 +3,6 @@ package com.jeckonly.core_data.common.repo.impl
 import com.jeckonly.core_data.common.repo.interface_.PokemonRepo
 import com.jeckonly.core_database.dao.PokemonInfoEntityDao
 import com.jeckonly.core_datastore.UserPrefsDataSource
-import com.jeckonly.core_model.datastore.DownloadState
 import com.jeckonly.core_model.domain.ResourceState
 import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
@@ -81,7 +80,7 @@ class PokemonRepoImpl @Inject constructor(
     override fun getPokemonInfoByNameOrId(nameOrId: String): Flow<ResourceState<List<PokemonInfoUI>>> =
         flow<ResourceState<List<PokemonInfoUI>>> {
             emit(ResourceState.Loading(true))
-            if (dataSource.getDownloadState() != DownloadState.FinishedDownload) {
+            if (!dataSource.isFinishDownload()) {
                 // 还没有下载完成数据库
                 val response = networkClient.fetchPokemonDetail(nameOrId)
                 response.suspendOnSuccess {

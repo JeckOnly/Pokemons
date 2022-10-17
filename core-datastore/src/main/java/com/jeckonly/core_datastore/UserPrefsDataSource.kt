@@ -1,13 +1,9 @@
 package com.jeckonly.core_datastore
 
 import androidx.datastore.core.DataStore
-import com.jeckonly.core_model.datastore.DownloadState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,22 +11,22 @@ import javax.inject.Singleton
 class UserPrefsDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>
 ) {
-    fun getDownloadStateFlow(): Flow<DownloadState> {
+    fun getDownloadStateFlow(): Flow<Boolean> {
         return userPreferences.data.map {
-            DownloadState.numberToState(it.databaseDownloadState)
+           it.finishDownload
         }
     }
 
-    suspend fun getDownloadState(): DownloadState{
+    suspend fun isFinishDownload(): Boolean {
         return userPreferences.data.map {
-            DownloadState.numberToState(it.databaseDownloadState)
+            it.finishDownload
         }.first()
     }
 
-    suspend fun updateDownloadState(newState: DownloadState) {
+    suspend fun updateDownloadState(isFinished: Boolean) {
         userPreferences.updateData { preferences ->
-            val currentState = preferences.databaseDownloadState
-            preferences.toBuilder().setDatabaseDownloadState(DownloadState.stateToNumber(newState)).build()
+            val currentState = preferences.finishDownload
+            preferences.toBuilder().setFinishDownload(isFinished).build()
         }
     }
 }
