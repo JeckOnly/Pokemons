@@ -9,10 +9,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeckonly.core_data.common.repo.interface_.PokemonRepo
+import com.jeckonly.core_data.common.repo.interface_.UserPrefsRepo
+import com.jeckonly.core_data.download.DownloadClient
 import com.jeckonly.core_model.domain.ResourceState
 import com.jeckonly.core_model.ui.home.HomeScreenMode
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.pokemons.ui_event.home.HomeEvent
+import com.jeckonly.util.LogUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -22,13 +25,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val pokemonRepo: PokemonRepo
+    private val pokemonRepo: PokemonRepo,
+    private val userPrefsRepo: UserPrefsRepo,
+    private val downloadClient: DownloadClient
 ) : ViewModel() {
 
     /**
      * mode
      */
     private var screenMode: HomeScreenMode = HomeScreenMode.BrowseMode
+
+    /**
+     * 是否已下载数据库
+     */
+    val hasFinishDownloadStateFlow = userPrefsRepo.getDownloadStateFlow().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false
+    )
+
+    /**
+     * 是否正在运行下载任务
+     */
+    val isRunningDownloadState = downloadClient.getIsRunningDownloadStateFlow()
 
     /**
      * the pokemon items to show
@@ -63,10 +82,11 @@ class HomeViewModel @Inject constructor(
      * 构造一个对于列表元素数量的监听
      */
     private val totalItemCountStateFlow = snapshotFlow {
-        listState.layoutInfo
-    }.map {
-        it.totalItemsCount
-    }.distinctUntilChanged().stateIn (
+        // NOTE snapshotFlow本身就对MutableState发出的值进行了distinct处理
+        listState.layoutInfo.totalItemsCount
+    }.onEach {
+        LogUtil.d("total item count: $it")
+    }.stateIn (
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = 0
@@ -77,8 +97,13 @@ class HomeViewModel @Inject constructor(
             totalItemCountStateFlow.collect { _ ->
                 // 当列表元素数量改变且需要滚动到原位置时，就滚动
                 if (needScrollToLastPosition) {
-                    scrollToLastPosition()
+                    scrollToLastPosition(firstVisibleItemIndex, firstVisibleItemScrollOffset)
                     needScrollToLastPosition = false
+                } else {
+                    if (screenMode is HomeScreenMode.SearchMode) {
+                        // 当在搜索模式的时候，每当列表总数增改，都要去到顶部
+                        scrollToLastPosition(0, 0)
+                    }
                 }
             }
         }
@@ -105,7 +130,7 @@ class HomeViewModel @Inject constructor(
     /**
      * 恢复滚动位置
      */
-    private suspend fun scrollToLastPosition() {
+    private suspend fun scrollToLastPosition(firstVisibleItemIndex: Int, firstVisibleItemScrollOffset: Int) {
         listState.scrollToItem(firstVisibleItemIndex, firstVisibleItemScrollOffset)
 //        listState.animateScrollToItem(firstVisibleItemIndex, firstVisibleItemScrollOffset) 需要在Composable内的协程中调用
     }
@@ -117,6 +142,27 @@ class HomeViewModel @Inject constructor(
         when (event) {
             is HomeEvent.WantMoreItem -> {
                 loadPage(page.value + 1)
+            }
+            is HomeEvent.ClickDownload -> {
+                if (!isRunningDownloadState.value and !hasFinishDownloadStateFlow.value) {
+                    downloadClient.downloadDatabase(
+                        onStart = {
+                            LogUtil.d("onStart")
+                            // TODO 弹个通知说开始
+                        },
+                        onSuccess = {
+                            LogUtil.d("onSuccess")
+                            viewModelScope.launch {
+                                userPrefsRepo.updateDownloadStateToFinish()
+                            }
+                            // TODO 弹个通知说成功
+                        },
+                        onFailure = {
+                            LogUtil.d("onFailure")
+                            // TODO 弹个通知说失败
+                        }
+                    )
+                }
             }
         }
     }
