@@ -1,5 +1,6 @@
 package com.jeckonly.pokemons.presentation.home
 
+import android.app.Application
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.getValue
@@ -11,9 +12,11 @@ import androidx.lifecycle.viewModelScope
 import com.jeckonly.core_data.common.repo.interface_.PokemonRepo
 import com.jeckonly.core_data.common.repo.interface_.UserPrefsRepo
 import com.jeckonly.core_data.download.DownloadClient
+import com.jeckonly.core_data.download.DownloadNotificationClient
 import com.jeckonly.core_model.domain.ResourceState
 import com.jeckonly.core_model.ui.home.HomeScreenMode
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
+import com.jeckonly.pokemons.R
 import com.jeckonly.pokemons.ui_event.home.HomeEvent
 import com.jeckonly.util.LogUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val app: Application,
     private val pokemonRepo: PokemonRepo,
     private val userPrefsRepo: UserPrefsRepo,
     private val downloadClient: DownloadClient
@@ -148,18 +152,27 @@ class HomeViewModel @Inject constructor(
                     downloadClient.downloadDatabase(
                         onStart = {
                             LogUtil.d("onStart")
-                            // TODO 弹个通知说开始
+                            DownloadNotificationClient.showDownloadStateNotification(
+                                app,
+                                app.getString(R.string.download_task_state_start)
+                            )
                         },
                         onSuccess = {
                             LogUtil.d("onSuccess")
                             viewModelScope.launch {
                                 userPrefsRepo.updateDownloadStateToFinish()
                             }
-                            // TODO 弹个通知说成功
+                            DownloadNotificationClient.showDownloadStateNotification(
+                                app,
+                                app.getString(R.string.download_task_state_success)
+                            )
                         },
-                        onFailure = {
+                        onFailure = { failMessage ->
                             LogUtil.d("onFailure")
-                            // TODO 弹个通知说失败
+                            DownloadNotificationClient.showDownloadStateNotification(
+                                app,
+                                app.getString(R.string.download_task_state_fail) + failMessage + "."
+                            )
                         }
                     )
                 }

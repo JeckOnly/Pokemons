@@ -10,4 +10,7 @@
     <string name="download">Download</string>
     <string name="get_it">Get it</string>
     <string name="downloading">You are downloading!</string>
+    <string name="download_task_state_start">Download task is start running, please wait a moment.</string>
+    <string name="download_task_state_success">Download task is succeed to finish, enjoy your time.</string>
+    <string name="download_task_state_fail">Download task is failed due to </string>
 </resources>
