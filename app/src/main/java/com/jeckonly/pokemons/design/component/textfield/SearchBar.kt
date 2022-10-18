@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.jeckonly.pokemons.R
+import com.jeckonly.core_data.R
 import com.jeckonly.pokemons.design.theme.Gray10
 import com.jeckonly.pokemons.design.theme.Gray5
 import com.jeckonly.pokemons.design.theme.Gray9

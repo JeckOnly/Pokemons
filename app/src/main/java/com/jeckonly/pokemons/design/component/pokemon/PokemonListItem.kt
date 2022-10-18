@@ -21,7 +21,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
-import com.jeckonly.pokemons.R
+import com.jeckonly.core_data.R
 import com.jeckonly.util.LogUtil
 
 @Composable
