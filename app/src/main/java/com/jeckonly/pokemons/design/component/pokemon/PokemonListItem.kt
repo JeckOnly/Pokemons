@@ -1,5 +1,6 @@
 package com.jeckonly.pokemons.design.component.pokemon
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -25,14 +26,16 @@ import com.jeckonly.core_data.R
 import com.jeckonly.util.LogUtil
 
 @Composable
-fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, modifier: Modifier = Modifier) {
+fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, onCLickPokemon: (String, Int) -> Unit, modifier: Modifier = Modifier) {
 
     var rgbBackgroundColor by remember {
         mutableStateOf(Color(0xffffffff))
     }
 
     Surface(
-        modifier = modifier,
+        modifier = modifier.clickable {
+             onCLickPokemon(pokemonInfoUI.name, pokemonInfoUI.id)
+        },
         shape = RoundedCornerShape(10.dp),
         color = rgbBackgroundColor
     ) {
@@ -100,6 +103,9 @@ fun PreviewPokemonListItem() {
     }
     PokemonListItem(
         pokemonInfoUI,
+        { name, id ->
+
+        },
         Modifier
             .width(100.dp)
             .wrapContentHeight()

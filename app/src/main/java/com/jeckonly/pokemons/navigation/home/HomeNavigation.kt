@@ -1,14 +1,12 @@
 package com.jeckonly.pokemons.navigation.home
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.jeckonly.pokemons.navigation.PokeNavDestination
 import com.jeckonly.pokemons.presentation.home.HomeRoute
-import com.jeckonly.pokemons.presentation.splash.SplashRoute
 
-fun NavGraphBuilder.homeGraph() {
+fun NavGraphBuilder.homeGraph(onClickPokemon: (String, Int) -> Unit) {
     composable(route = PokeNavDestination.HomeDestination.route) {
-        HomeRoute()
+        HomeRoute(onClickPokemon)
     }
 }

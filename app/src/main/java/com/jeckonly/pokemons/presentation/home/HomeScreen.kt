@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 @Composable
-fun HomeRoute(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeRoute(onCLickPokemon: (String, Int) -> Unit, modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
 
     val pokemonItems = viewModel.pokemonItems.collectAsState()
     val hasDownload = viewModel.hasFinishDownloadStateFlow.collectAsState()
@@ -52,6 +52,7 @@ fun HomeRoute(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltView
         onClickDownload = {
             viewModel.onEvent(HomeEvent.ClickDownload)
         },
+        onCLickPokemon = onCLickPokemon,
         modifier = modifier
     )
 }
@@ -66,6 +67,7 @@ fun HomeScreen(
     hasDownload: Boolean,
     isRunningDownload: Boolean,
     onClickDownload: () -> Unit,
+    onCLickPokemon: (String, Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -164,6 +166,7 @@ fun HomeScreen(
                 ) { item ->
                     PokemonListItem(
                         pokemonInfoUI = item,
+                        onCLickPokemon = onCLickPokemon,
                         modifier = Modifier
                             .padding(
                                 start = 10.dp,
@@ -279,6 +282,9 @@ fun PreviewHomeScreen() {
         hasDownload = false,
         isRunningDownload = false,
         onClickDownload = {},
+        onCLickPokemon = { name, id ->
+
+        },
         modifier = Modifier
     )
 }

@@ -16,7 +16,11 @@ fun PokeNavGraph(modifier: Modifier = Modifier) {
         startDestination = PokeNavDestination.HomeDestination.route,
         modifier = modifier
     ) {
-        homeGraph()
-        detailGraph()
+        homeGraph { name, id ->
+            navController.navigate(PokeNavDestination.DetailDestination.getNavigationRoute(name, id))
+        }
+        detailGraph {
+            navController.popBackStack()
+        }
     }
 }
