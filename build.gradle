@@ -7,6 +7,7 @@ buildscript {
         hilt_version = '2.44'
         work_version = '2.7.1'
         androidx_hilt_version = '1.0.0'
+        acompanist_version = '0.24.10-beta'
     }
 
     dependencies {
