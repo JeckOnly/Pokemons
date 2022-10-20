@@ -2,7 +2,10 @@ package com.jeckonly.core_remote
 
 import com.jeckonly.core_model.dto.NetworkConstant
 import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
+import com.jeckonly.core_model.dto.pokemonevolutionchain.PokemonEvolutionChain
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonPageDto
+import com.jeckonly.core_model.dto.pokemonlistitem.getIdFromUrl
+import com.jeckonly.core_model.dto.pokemonspecies.PokemonSpeciesDto
 import com.jeckonly.core_remote.api.PokeService
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -31,5 +34,19 @@ class PokemonClient @Inject constructor(
      */
     suspend fun fetchPokemonDetail(nameOrId: String): ApiResponse<PokemonDetailDto> {
         return pokeService.fetchPokemonDetail(nameOrId)
+    }
+
+    /**
+     * 获取宝可梦种族信息
+     */
+    suspend fun fetchPokemonSpecies(nameOrId: String): ApiResponse<PokemonSpeciesDto> {
+        return pokeService.fetchPokemonSpecies(nameOrId)
+    }
+
+    /**
+     * 获取宝可梦进化链信息
+     */
+    suspend fun fetchPokemonEvolutionChain(evolutionChainUrl: String): ApiResponse<PokemonEvolutionChain> {
+        return pokeService.fetchPokemonEvolutionChain(getIdFromUrl(evolutionChainUrl))
     }
 }

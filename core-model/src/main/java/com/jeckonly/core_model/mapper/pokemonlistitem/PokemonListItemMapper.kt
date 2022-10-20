@@ -1,6 +1,7 @@
 package com.jeckonly.core_model.mapper.pokemonlistitem
 
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
+import com.jeckonly.core_model.dto.pokemonlistitem.getIdFromUrl
 import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
 

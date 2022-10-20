@@ -1,6 +1,6 @@
 package com.jeckonly.core_model.dto.pokemonspecies
 
-data class PokemonSpecies(
+data class PokemonSpeciesDto(
 
     /**
      * 被Pokeball抓住时的开心值，最高255
@@ -33,7 +33,11 @@ data class PokemonSpecies(
 //    val flavor_text_entries: List<FlavorTextEntry>,
 //    val form_descriptions: List<Any>,
 //    val forms_switchable: Boolean,
-//    val gender_rate: Int,
+
+    /**
+     * 这只宝可梦为女性的概率，需要乘以 1/8
+     */
+    val gender_rate: Int,
 //    val genera: List<Genera>,
 //    val generation: Generation,
 

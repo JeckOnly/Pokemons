@@ -8,4 +8,6 @@ package com.jeckonly.core_remote
  */
 object EndPoint{
     const val POKEMON = "pokemon"
+    const val POKEMON_SPECIES = "pokemon-species"
+    const val EVOLUTION_CHAIN = "evolution-chain"
 }

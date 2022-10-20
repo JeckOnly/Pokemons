@@ -8,7 +8,8 @@ data class PokemonInfoUI(
 
     val artworkUrl: String = getArtWorkUrlFormId(id)
 
-    private fun getArtWorkUrlFormId(id: Int): String {
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
-    }
+}
+
+fun getArtWorkUrlFormId(id: Int): String {
+    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
 }

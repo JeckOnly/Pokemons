@@ -5,12 +5,16 @@ import android.util.Log
 data class PokemonInfoDto(
     val name: String,
     val url: String
-) {
-    fun getIdFromUrl(url: String): Int{
-        Log.d("PokemonInfoDto", "getIdFromUrl")
-        val tempList = url.split("/")
-        return (tempList[tempList.size - 2]).toInt()
-    }
+)
+
+
+/**
+ * https:xxx/xxx/1/  获得这个1
+ */
+fun getIdFromUrl(url: String): Int{
+    Log.d("PokemonInfoDto", "getIdFromUrl")
+    val tempList = url.split("/")
+    return (tempList[tempList.size - 2]).toInt()
 }
 
 fun main() {

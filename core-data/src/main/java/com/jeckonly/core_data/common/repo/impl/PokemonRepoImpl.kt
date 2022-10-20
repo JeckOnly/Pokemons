@@ -5,12 +5,16 @@ import com.jeckonly.core_database.dao.PokemonInfoEntityDao
 import com.jeckonly.core_datastore.UserPrefsDataSource
 import com.jeckonly.core_model.domain.ResourceState
 import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
+import com.jeckonly.core_model.dto.pokemonevolutionchain.PokemonEvolutionChain
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonPageDto
+import com.jeckonly.core_model.dto.pokemonspecies.PokemonSpeciesDto
 import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
+import com.jeckonly.core_model.mapper.pokemondetail.getPokemonDetailUIByDto
 import com.jeckonly.core_model.mapper.pokemondetail.toPokemonInfoUI
 import com.jeckonly.core_model.mapper.pokemonlistitem.toPokemonInfoEntity
 import com.jeckonly.core_model.mapper.pokemonlistitem.toPokemonInfoUI
+import com.jeckonly.core_model.ui.detail.PokemonDetailUI
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.core_remote.PokemonClient
 import com.skydoves.sandwich.*
@@ -108,6 +112,43 @@ class PokemonRepoImpl @Inject constructor(
                 }
             }
             emit(ResourceState.Loading(false))
+        }.flowOn(Dispatchers.Default)
+
+    override fun getPokemonDetailUIByName(name: String): Flow<ResourceState<PokemonDetailUI>> =
+        flow<ResourceState<PokemonDetailUI>> {
+            emit(ResourceState.Loading(true))
+            val response = networkClient.fetchPokemonDetail(name)
+            response.suspendOnSuccess {
+                val pokemonDetailDto: PokemonDetailDto = data
+                val response2 = networkClient.fetchPokemonSpecies(name)
+                response2.suspendOnSuccess {
+                    val pokemonSpeciesDto: PokemonSpeciesDto = data
+                    emit(ResourceState.Success(data = getPokemonDetailUIByDto(
+                        pokemonDetailDto,
+                        pokemonSpeciesDto
+                    )))
+                }.suspendOnFailure {
+                    emit(ResourceState.Error(message = message()))
+                }
+            }.suspendOnFailure {
+                emit(ResourceState.Error(message = message()))
+            }
+            emit(ResourceState.Loading(isLoading = false))
+        }.flowOn(Dispatchers.Default)
+
+    /**
+     * 暂时不用上
+     */
+    override fun getPokemonEvolutionChainByUrl(evolutionChainUrl: String): Flow<ResourceState<PokemonEvolutionChain>> =
+        flow<ResourceState<PokemonEvolutionChain>> {
+            emit(ResourceState.Loading(true))
+            val response = networkClient.fetchPokemonEvolutionChain(evolutionChainUrl)
+            response.suspendOnSuccess {
+                emit(ResourceState.Success(this.data))
+            }.suspendOnFailure {
+                emit(ResourceState.Error(message = message()))
+            }
+            emit(ResourceState.Loading(isLoading = false))
         }.flowOn(Dispatchers.Default)
 
     private fun String.isId(): Boolean {
