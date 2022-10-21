@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,8 +23,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.jeckonly.core_data.R
+import com.jeckonly.core_model.ui.detail.PokemonDetailUI
 import com.jeckonly.core_model.ui.home.getArtWorkUrlFormId
 import com.jeckonly.pokemons.design.component.pokemon.PokemonDetailBigImage
+import com.jeckonly.pokemons.design.component.pokemon.PokemonDetailPager
 import com.jeckonly.pokemons.design.component.pokemon.PokemonDetailTitleBar
 import com.jeckonly.pokemons.ui_event.detail.DetailEvent
 import com.jeckonly.util.LogUtil
@@ -39,10 +42,12 @@ fun DetailRoute(
         LogUtil.d("name: $name, id: $id")
         viewModel.onEvent(DetailEvent.Init(name = name))
     })
+    val pokemonDetailUI = viewModel.pokemonDetailUIStateFlow.collectAsState()
 
     DetailScreen(
         name = name,
         id = id,
+        pokemonDetailUI = pokemonDetailUI.value,
         onClickBack = onClickBack
     )
 }
@@ -51,6 +56,7 @@ fun DetailRoute(
 fun DetailScreen(
     name: String,
     id: Int,
+    pokemonDetailUI: PokemonDetailUI,
     onClickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -73,7 +79,7 @@ fun DetailScreen(
                 onClickBack = onClickBack,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             PokemonDetailBigImage(
                 getArtWorkUrlFormId(id),
                 Modifier
@@ -81,6 +87,20 @@ fun DetailScreen(
                     .padding(start = 60.dp, end = 60.dp)
                     .aspectRatio(0.9f)
             )
+            PokemonDetailPager(pokemonDetailUI = pokemonDetailUI, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 6.dp))
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewDetailScreen() {
+    DetailScreen(
+        name = "pikachu",
+        id = 25,
+        pokemonDetailUI = PokemonDetailUI(),
+        onClickBack = {},
+    )
 }

@@ -43,8 +43,8 @@ fun getPokemonDetailUIByDto(
         },
         stats = pokemonDetailDto.stats,
         experience = pokemonDetailDto.base_experience,
-        height = pokemonDetailDto.height,
-        weight = pokemonDetailDto.weight,
+        height = (pokemonDetailDto.height * 10).toString() + "cm",
+        weight = df.format(pokemonDetailDto.weight / 10) + "kg",
         shape = pokemonSpeciesDto.shape.name,
         captureRate = pokemonSpeciesDto.capture_rate,
         eggGroups = pokemonSpeciesDto.egg_groups.map {

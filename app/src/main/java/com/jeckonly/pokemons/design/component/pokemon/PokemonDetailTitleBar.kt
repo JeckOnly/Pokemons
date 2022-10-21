@@ -8,6 +8,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,14 +33,16 @@ fun PokemonDetailTitleBar(name: String, id: Int, onClickBack: () -> Unit, modifi
                 painter = painterResource(id = R.drawable.ic_arrow_back),
                 contentDescription = null,
                 tint = Blue8,
-                modifier = Modifier.constrainAs(icon) {
-                    start.linkTo(parent.start, 20.dp)
-                    top.linkTo(parent.top)
-                    width = Dimension.value(30.dp)
-                    height = Dimension.value(30.dp)
-                }.clickable {
-                    onClickBack()
-                }
+                modifier = Modifier
+                    .constrainAs(icon) {
+                        start.linkTo(parent.start, 20.dp)
+                        top.linkTo(parent.top)
+                        width = Dimension.value(30.dp)
+                        height = Dimension.value(30.dp)
+                    }
+                    .clickable {
+                        onClickBack()
+                    }
             )
             
             Text(

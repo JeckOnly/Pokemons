@@ -34,10 +34,10 @@ class DetailViewModel @Inject constructor(
     private val pokemonRepo: PokemonRepo,
 ) : ViewModel() {
 
-    private val _pokemonDetailUIStateFlow: MutableStateFlow<PokemonDetailUI?> = MutableStateFlow(
+    private val _pokemonDetailUIStateFlow: MutableStateFlow<PokemonDetailUI> = MutableStateFlow(
         PokemonDetailUI()
     )
-    val pokemonDetailUIStateFlow: StateFlow<PokemonDetailUI?> = _pokemonDetailUIStateFlow
+    val pokemonDetailUIStateFlow: StateFlow<PokemonDetailUI> = _pokemonDetailUIStateFlow
 
     fun onEvent(event: DetailEvent) {
         when(event) {

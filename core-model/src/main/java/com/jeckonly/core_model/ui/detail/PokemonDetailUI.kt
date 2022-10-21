@@ -9,11 +9,24 @@ data class PokemonDetailUI(
     val moves: List<String> = emptyList(),
     val types: List<String> = emptyList(),
     val games: List<String> = emptyList(),
+
     val stats: List<Stat> = emptyList(),
     val experience: Int = 0,
-    val height: Int = 0,
-    val weight: Int = 0,
+
+    /**
+     * cm
+     */
+    val height: String = "",
+
+    /**
+     * kg
+     */
+    val weight: String = "",
     val shape: String = "",
+
+    /**
+     * 1-255
+     */
     val captureRate: Int = 0,
     val eggGroups: List<String> = emptyList(),
     val malePercent: String = "",
