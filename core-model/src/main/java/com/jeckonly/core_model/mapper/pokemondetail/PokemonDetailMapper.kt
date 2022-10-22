@@ -52,7 +52,7 @@ fun getPokemonDetailUIByDto(
         },
         malePercent = df.format(maleRate)+"%",
         femalePercent = df.format(femaleRate)+"%",
-        habitat = pokemonSpeciesDto.habitat.name
+        habitat = pokemonSpeciesDto.habitat?.name?:""
         )
 }
 

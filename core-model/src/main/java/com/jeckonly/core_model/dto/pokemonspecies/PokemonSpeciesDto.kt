@@ -49,7 +49,7 @@ data class PokemonSpeciesDto(
     /**
      * 可能遇到的栖息地
      */
-    val habitat: Habitat,
+    val habitat: Habitat?,
 //    val has_gender_differences: Boolean,
 //    val hatch_counter: Int,
     val id: Int,
