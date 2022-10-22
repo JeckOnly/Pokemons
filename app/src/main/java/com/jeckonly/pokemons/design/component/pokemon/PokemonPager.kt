@@ -1,12 +1,10 @@
 package com.jeckonly.pokemons.design.component.pokemon
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -36,12 +34,12 @@ fun PokemonDetailPager(pokemonDetailUI: PokemonDetailUI, modifier: Modifier = Mo
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                    height = 0.dp,
-                    color = Color.Transparent
+                    height = 2.dp,
+                    color = Blue10
                 )
             },
             divider = {
-                TabRowDefaults.Divider(color = Blue10)
+                TabRowDefaults.Divider(color = Blue8)
             },
             backgroundColor = MaterialTheme.colors.surface,
             modifier = Modifier
@@ -72,9 +70,10 @@ fun PokemonDetailPager(pokemonDetailUI: PokemonDetailUI, modifier: Modifier = Mo
         HorizontalPager(
             count = PagerScreen.screenList.size,
             state = pagerState,
-            modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 20.dp)
+            modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 20.dp).wrapContentHeight(),
+            verticalAlignment = Alignment.Top,
         ) { page ->
-            PagerScreen.screenList[page].content(pokemonDetailUI)
+            PagerScreen.screenList[page].content(this, pokemonDetailUI)
         }
     }
 }

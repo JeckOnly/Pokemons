@@ -33,3 +33,11 @@ val Dragon = Color(0xff378A94)
 val Fairy = Color(0xff9E1A44)
 val Dark = Color(0xff040706)
 
+val Hp = Color(0xFFB61212)
+val Attack = Color(0xFFD66B22)
+val Defense = Color(0xFF0FCCBA)
+val SpecialAttack = Color(0xFF7C300C)
+val SpecialDefense = Color(0xFF0A796E)
+val Speed = Color(0xFF8BC34A)
+val CaptureRate = Color(0xFF7E28C9)
+

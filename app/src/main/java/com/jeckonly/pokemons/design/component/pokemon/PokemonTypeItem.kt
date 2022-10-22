@@ -23,7 +23,7 @@ fun PokemonTypeItem(type: String, modifier: Modifier = Modifier) {
             text = type,
             color = Color.White,
             fontSize = 16.sp,
-            modifier = Modifier.padding(horizontal = 7.dp, vertical = 5.dp)
+            modifier = Modifier.padding(horizontal = 19.dp, vertical = 5.dp)
         )
     }
 }

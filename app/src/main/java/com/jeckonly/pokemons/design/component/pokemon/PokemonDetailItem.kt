@@ -14,7 +14,7 @@ import com.jeckonly.pokemons.design.theme.Gray10
 fun PokemonDetailItem(itemName: String, modifier: Modifier = Modifier, itemContent: @Composable () -> Unit) {
     Box (
         modifier = modifier.padding(start = 20.dp, end = 20.dp),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = Alignment.TopStart
     ) {
         Text(text = itemName, color = Gray10, fontSize = 13.sp)
         Box(modifier = Modifier.padding(start = 110.dp)) {

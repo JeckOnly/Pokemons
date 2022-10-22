@@ -1,26 +1,26 @@
 package com.jeckonly.pokemons.presentation.detail.pagerscreen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerScope
 import com.jeckonly.core_model.ui.detail.PokemonDetailUI
-import com.jeckonly.pokemons.design.component.pokemon.PokemonDetailItem
 
-sealed class PagerScreen(val index: Int, val title: String, val content: @Composable (PokemonDetailUI) -> Unit) {
-    class AboutScreen(): PagerScreen(0, "About", { pokemonDetailUI ->
+sealed class PagerScreen @OptIn(ExperimentalPagerApi::class) constructor(
+    val index: Int,
+    val title: String,
+    val content: @Composable (PagerScope.(PokemonDetailUI) -> Unit)
+) {
+    class AboutScreen() : PagerScreen(0, "About", { pokemonDetailUI ->
         AboutPager(pokemonDetailUI = pokemonDetailUI)
     })
 
-    class StatsScreen(): PagerScreen(1, "Stats", {
-        Text(text = "statsscreen")
+    @OptIn(ExperimentalPagerApi::class)
+    class StatsScreen() : PagerScreen(1, "Stats", { pokemonDetailUI ->
+        StatsPager(pageIndex = 1, pokemonDetailUI = pokemonDetailUI)
     })
 
-    class DetailScreen(): PagerScreen(2, "Detail", {
-        Text(text = "detailscreen")
+    class DetailScreen() : PagerScreen(2, "Detail", { pokemonDetailUI ->
+        DetailPager(pokemonDetailUI = pokemonDetailUI)
     })
 
     companion object {

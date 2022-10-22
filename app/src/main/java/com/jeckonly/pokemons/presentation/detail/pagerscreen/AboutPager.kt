@@ -28,7 +28,7 @@ fun AboutPager(pokemonDetailUI: PokemonDetailUI, modifier: Modifier = Modifier) 
         PokemonDetailItem(
             itemName = "Species", modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 5.dp)
+                .padding(top = 10.dp)
         ) {
             Text(text = pokemonDetailUI.species, fontSize = 16.sp, color = Blue10)
         }
