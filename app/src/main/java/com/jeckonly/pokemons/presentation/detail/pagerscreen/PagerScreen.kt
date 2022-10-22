@@ -27,7 +27,7 @@ sealed class PagerScreen @OptIn(ExperimentalPagerApi::class) constructor(
         val screenList = listOf<PagerScreen>(
             AboutScreen(),
             StatsScreen(),
-            DetailScreen()
+//            DetailScreen()
         )
     }
 }

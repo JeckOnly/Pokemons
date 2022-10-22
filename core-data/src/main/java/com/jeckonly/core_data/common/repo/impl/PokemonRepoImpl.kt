@@ -8,6 +8,7 @@ import com.jeckonly.core_model.dto.pokemondetail.PokemonDetailDto
 import com.jeckonly.core_model.dto.pokemonevolutionchain.PokemonEvolutionChain
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonInfoDto
 import com.jeckonly.core_model.dto.pokemonlistitem.PokemonPageDto
+import com.jeckonly.core_model.dto.pokemonlistitem.getIdFromUrl
 import com.jeckonly.core_model.dto.pokemonspecies.PokemonSpeciesDto
 import com.jeckonly.core_model.entity.pokemonlistitem.PokemonInfoEntity
 import com.jeckonly.core_model.mapper.pokemondetail.getPokemonDetailUIByDto
@@ -120,7 +121,8 @@ class PokemonRepoImpl @Inject constructor(
             val response = networkClient.fetchPokemonDetail(name)
             response.suspendOnSuccess {
                 val pokemonDetailDto: PokemonDetailDto = data
-                val response2 = networkClient.fetchPokemonSpecies(name)
+                val id = getIdFromUrl(pokemonDetailDto.species.url)
+                val response2 = networkClient.fetchPokemonSpecies(id.toString())
                 response2.suspendOnSuccess {
                     val pokemonSpeciesDto: PokemonSpeciesDto = data
                     emit(ResourceState.Success(data = getPokemonDetailUIByDto(
