@@ -43,7 +43,8 @@ fun PokemonDetailPager(pokemonDetailUI: PokemonDetailUI, modifier: Modifier = Mo
             },
             backgroundColor = MaterialTheme.colors.surface,
             modifier = Modifier
-                .fillMaxWidth().padding(start = 20.dp, end = 20.dp)
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp)
         ) {
             // Add tabs for all of our pages
             PagerScreen.screenList.forEach { pagerScreen ->
@@ -70,10 +71,18 @@ fun PokemonDetailPager(pokemonDetailUI: PokemonDetailUI, modifier: Modifier = Mo
         HorizontalPager(
             count = PagerScreen.screenList.size,
             state = pagerState,
-            modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 20.dp).wrapContentHeight(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(bottom = 20.dp)
+                .wrapContentHeight(),
             verticalAlignment = Alignment.Top,
         ) { page ->
-            PagerScreen.screenList[page].content(this, pokemonDetailUI)
+            if (pokemonDetailUI.species.isEmpty()) {
+                CircularProgressIndicator(color = Blue10, modifier = Modifier.padding(top = 30.dp))
+            } else {
+                PagerScreen.screenList[page].content(this, pokemonDetailUI)
+            }
         }
     }
 }
