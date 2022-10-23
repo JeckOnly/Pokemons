@@ -4,7 +4,7 @@
 
 :shit:完全基于Jetpack Compose，结合Coroutine，Flow，Retrofit，Jetpack（Hilt，WorkManager，ViewModel，Room，DataStore）等现代Android开发工具的神奇宝贝图鉴。:pushpin: MVI :heavy_plus_sign: Repository Pattern :heavy_plus_sign: Recommed Architecture :heavy_plus_sign: Modularization.
 
-![](docs/img/102310203757_0Phone Screenshot 1.jpg)
+![](docs/img/screen_shot.png)
 
 <img src="docs/img/1b022b71b3e1fd3f25a39a2a01853ced.gif" align="right" width="320" />
 
