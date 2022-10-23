@@ -8,6 +8,10 @@
 
 <img src="docs/img/1b022b71b3e1fd3f25a39a2a01853ced.gif" align="right" width="320" />
 
+## Download
+
+Go [releases](https://github.com/JeckOnly/Pokemons/releases) to download the latest apk.
+
 ## Teck-stack
 
 - min SDK 23, compile SDK 32.
@@ -56,6 +60,14 @@ The [single source of truth principle](https://developer.android.com/topic/archi
 
 
 [More info about recommended best practices.](https://developer.android.com/topic/architecture?hl=en#separation-of-concerns), I just copy form here.
+
+
+
+## Reference
+
+The idea to make a pokedex app in jetpack compose comes form [skydoves pokedex](https://github.com/skydoves/Pokedex), he make his app in views, and i decide to make a fully Compose app, and i learn a lot from him. 
+
+UI design inspiration comes from [dribble](https://dribbble.com/shots/16833947-Mobile-Pokedex-App-Design-Exploration).
 
 
 
