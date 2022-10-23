@@ -1,6 +1,8 @@
 # 											神奇宝贝图鉴
 
-:shit:完全基于Jetpack Compose，结合Coroutine，Flow，Retrofit，Jetpack（Hilt，WorkManager，ViewModel，Room，DataStore）等现代Android开发工具的神奇宝贝图鉴。:pushpin: MVI :heavy_plus_sign: Repository Pattern :heavy_plus_sign: Recommed Architecture :heavy_plus_sign: Modularization.
+:shit:完全基于Jetpack Compose，结合Coroutine，Flow，Retrofit，Jetpack（Hilt，WorkManager，ViewModel，Room，DataStore）等MAD Kits的神奇宝贝图鉴。
+
+:pushpin: MVI :heavy_plus_sign: Repository Pattern :heavy_plus_sign: Recommed Architecture :heavy_plus_sign: Modularization.
 
 ![](docs/img/screen_shot.png)
 
