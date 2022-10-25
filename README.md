@@ -1,6 +1,6 @@
-# 											神奇宝贝图鉴
+# 											神奇宝贝图鉴·Pokedex
 
-:shit:完全基于Jetpack Compose，结合Coroutine，Flow，Retrofit，Jetpack（Hilt，WorkManager，ViewModel，Room，DataStore）等MAD Kits的神奇宝贝图鉴。
+:shit:A Pokedex ​fully based on Jetpack Compose, with Coroutine, Flow, Retrofit, Jetpack(Hilt, WorkManager, ViewModel, Room, DataStore)and other MAD Kits be recommended by Google.
 
 :pushpin: MVI :heavy_plus_sign: Repository Pattern :heavy_plus_sign: Recommed Architecture :heavy_plus_sign: Modularization.
 
@@ -37,31 +37,73 @@ Go [releases](https://github.com/JeckOnly/Pokemons/releases) to download the lat
 - [Sandwich](https://github.com/skydoves/Sandwich): Construct a lightweight and modern response interface to handle network payload for Android.
 - Gson: Used to convert network response to Java objects.
 
+## Modularization
 
+Pokedex is modulized, and I learn how to do it form [NowInAndroid by Google](https://github.com/android/nowinandroid).This is my project module structure diagram:
+
+![image-20221025141602694](docs/img/image-20221025141602694.png)
 
 ## Architecture
 
-#### Separation of concerns
+#### Priciples
+
+##### Separation of concerns
 
 Programming with jetpack compose naturally applies this principle
 
-#### Drive UI from data models
+##### Drive UI from data models
 
 Another important principle is that you should drive your UI from data models, preferably persistent models. Data models represent the data of an app. I apply [domain specific models](https://blog.danlew.net/2022/08/15/domain-specific-models/) in this project. There are dto models(from network), entity models(save in database) and UI models(show in UI).And use a mapper file that contains some functions to transform between them.
 
-#### Single source of truth
+##### Single source of truth
 
 When a new data type is defined in your app, you should assign a Single Source of Truth (SSOT) to it. The SSOT is the *owner* of that data, and only the SSOT can modify or mutate it.
 
-#### Unidirectional Data Flow
+##### Unidirectional Data Flow
 
 The [single source of truth principle](https://developer.android.com/topic/architecture?hl=en#single-source-of-truth) is often used in our guides with the Unidirectional Data Flow (UDF) pattern. In UDF, **state** flows in only one direction. The **events** that modify the data flow in the opposite direction.
 
-
-
 [More info about recommended best practices.](https://developer.android.com/topic/architecture?hl=en#separation-of-concerns), I just copy form here.
 
+#### UI Layer
 
+##### Navigation
+
+![image-20221025135936027](docs/img/image-20221025135936027.png)
+
+##### UI and StateHolder Arch
+
+<img src="docs/img/image-20221025140144101.png" alt="image-20221025140144101" style="zoom: 80%;" />
+
+[More Infos](https://developer.android.com/topic/architecture/ui-layer)
+
+It is highly recommended that you learn from the official documentation and make your hands dirty.
+
+#### Data Layer
+
+Data Layer contains Repository and Data Source.It is generally accessible only by the UI layer.
+
+This is the official diagram:
+
+![image-20221025140557633](docs/img/image-20221025140557633.png)
+
+And in this project, data sources constains: remote, database, datastore(Jetpack), and repo constains: PokemonRepo, UserPrefsRepo.
+
+![image-20221025140741042](docs/img/image-20221025140741042.png)
+
+#### Domain Specific Model
+
+**ApiModels** match the API schema. They are immutable (because they’re just used for one-time communication) and nullable (since we might request a subset of fields).
+
+**DbModels** match the DB schema. They are mutable (because of OrmLite) but provide more non-null property guarantees. (In an ideal, non-ORM world, they would be immutable as well.)
+
+**UiModels** match whatever the UI needs. They are immutable and their properties are generally non-null.
+
+Between each of these models are converters. We send a network request to the server and get back an ApiModel; that’s converted into a DbModel for insertion into the database.  Then the UI queries the database, which converts the DbModel into whatever UiModels the UI requires.
+
+![image-20221025142605107](docs/img/image-20221025142605107.png)
+
+[You can learn more in here](https://blog.danlew.net/2022/08/15/domain-specific-models/)
 
 ## Reference
 
