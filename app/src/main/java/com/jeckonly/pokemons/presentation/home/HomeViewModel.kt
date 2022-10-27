@@ -142,7 +142,7 @@ class HomeViewModel @Inject constructor(
     /**
      * NOTE 只能被UI层调用
      */
-    fun onEvent(event: HomeEvent) {
+    private fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.WantMoreItem -> {
                 loadPage(page.value + 1)
@@ -273,5 +273,13 @@ class HomeViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    fun onWantMoreItemEvent() {
+        this.onEvent(HomeEvent.WantMoreItem)
+    }
+
+    fun onClickDownloadEvent() {
+        this.onEvent(HomeEvent.ClickDownload)
     }
 }

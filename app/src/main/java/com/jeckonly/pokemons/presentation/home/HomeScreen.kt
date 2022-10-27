@@ -42,16 +42,12 @@ fun HomeRoute(onCLickPokemon: (String, Int) -> Unit, modifier: Modifier = Modifi
     HomeScreen(
         searchText = viewModel.searchText,
         listState = viewModel.listState,
-        onSearchTextChanged = viewModel::onSearchTextChanged,
-        onItemsTooFewRemaining = {
-            viewModel.onEvent(HomeEvent.WantMoreItem)
-        },
+        onSearchTextChanged = viewModel::onSearchTextChanged,// NOTE 优化性能，避免创建lambda对象
+        onItemsTooFewRemaining = viewModel::onWantMoreItemEvent,
         pokemonItems = pokemonItems.value,
         hasDownload = hasDownload.value,
         isRunningDownload = isRunningDownloadState.value,
-        onClickDownload = {
-            viewModel.onEvent(HomeEvent.ClickDownload)
-        },
+        onClickDownload = viewModel::onClickDownloadEvent,
         onCLickPokemon = onCLickPokemon,
         modifier = modifier
     )

@@ -39,7 +39,7 @@ class DetailViewModel @Inject constructor(
     )
     val pokemonDetailUIStateFlow: StateFlow<PokemonDetailUI> = _pokemonDetailUIStateFlow
 
-    fun onEvent(event: DetailEvent) {
+    private fun onEvent(event: DetailEvent) {
         when(event) {
             is DetailEvent.Init -> {
                 viewModelScope.launch {
@@ -62,5 +62,9 @@ class DetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun onInitEvent(name: String) {
+        this.onEvent(DetailEvent.Init(name))
     }
 }

@@ -40,7 +40,7 @@ fun DetailRoute(
 ) {
     LaunchedEffect(key1 = Unit, block = {
         LogUtil.d("name: $name, id: $id")
-        viewModel.onEvent(DetailEvent.Init(name = name))
+        viewModel.onInitEvent(name = name)
     })
     val pokemonDetailUI = viewModel.pokemonDetailUIStateFlow.collectAsState()
 
