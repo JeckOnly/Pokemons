@@ -4,7 +4,6 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-//    id("com.google.devtools.ksp" version "1.6.10-1.0.2"
 }
 
 android {
@@ -24,8 +23,9 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled = false
+        val release = getByName("release")
+        release.apply {
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -45,13 +45,6 @@ android {
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    applicationVariants.all { variant ->
-        kotlin.sourceSets {
-            getByName(variant.name) {
-                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
-            }
         }
     }
 }
@@ -79,12 +72,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
     implementation("androidx.activity:activity-compose:$activity_version")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation("junit:junit:$junit_version")
+    androidTestImplementation("androidx.test.ext:junit:$test_ext_version")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$test_espresso_version")
 
     // Compose dependencies)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
     // implementation("androidx.compose.material:material-icons-extended:$compose_version")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$acompanist_version")
     // To use constraintlayout in compose)

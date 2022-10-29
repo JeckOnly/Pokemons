@@ -13,10 +13,10 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Pokemons"
-include ':app'
-include ':util'
-include ':core-data'
-include ':core-database'
-include ':core-remote'
-include ':core-model'
-include ':core-datastore'
+include(":app")
+include(":util")
+include(":core-data")
+include(":core-database")
+include(":core-remote")
+include(":core-model")
+include(":core-datastore")
