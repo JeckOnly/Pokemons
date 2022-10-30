@@ -1,6 +1,6 @@
 # 											神奇宝贝图鉴·Pokedex
 
-:shit:A Pokedex ​fully based on Jetpack Compose, with Coroutine, Flow, Retrofit, Jetpack(Hilt, WorkManager, ViewModel, Room, DataStore)and other MAD Kits be recommended by Google.
+:fire:A Pokedex ​fully based on Jetpack Compose, with Coroutine, Flow, Retrofit, Jetpack(Hilt, WorkManager, ViewModel, Room, DataStore)and other MAD Kits be recommended by Google.
 
 :pushpin: MVI :heavy_plus_sign: Repository Pattern :heavy_plus_sign: Recommed Architecture :heavy_plus_sign: Modularization.
 
