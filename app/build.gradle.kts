@@ -72,9 +72,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
     implementation("androidx.activity:activity-compose:$activity_version")
-    testImplementation("junit:junit:$junit_version")
-    androidTestImplementation("androidx.test.ext:junit:$test_ext_version")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$test_espresso_version")
+    addTestImpl()
 
     // Compose dependencies)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
@@ -87,8 +85,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.5.2")
 
     //Dagger - Hilt)
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-compiler:$hilt_version")
+    addHiltImpl()
     implementation("androidx.hilt:hilt-navigation-compose:$androidx_hilt_version")
 
     // coil)

@@ -27,9 +27,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:$core_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    testImplementation("junit:junit:$junit_version")
-    androidTestImplementation("androidx.test.ext:junit:$test_ext_version")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$test_espresso_version")
+    addTestImpl()
 
     implementation("com.squareup.retrofit2:converter-gson:$retrofit2_version")
 }

@@ -58,14 +58,11 @@ dependencies {
     implementation(project(":core-model"))
 
     implementation("androidx.core:core-ktx:$core_version")
-    testImplementation("junit:junit:$junit_version")
-    androidTestImplementation("androidx.test.ext:junit:$test_ext_version")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$test_espresso_version")
+    addTestImpl()
 
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("com.google.protobuf:protobuf-javalite:3.18.0")
 
     //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-compiler:$hilt_version")
+    addHiltImpl()
 }

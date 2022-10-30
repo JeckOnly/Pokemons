@@ -26,9 +26,7 @@ android {
 
 dependencies {
 
-    testImplementation("junit:junit:$junit_version")
-    androidTestImplementation("androidx.test.ext:junit:$test_ext_version")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$test_espresso_version")
+    addTestImpl()
 
     // Room，因为要用到@Entity注释
     implementation("androidx.room:room-runtime:$room_version")
