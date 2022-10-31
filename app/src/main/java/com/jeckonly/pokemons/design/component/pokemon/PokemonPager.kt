@@ -73,7 +73,6 @@ fun PokemonDetailPager(pokemonDetailUI: PokemonDetailUI, modifier: Modifier = Mo
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()
                 .padding(bottom = 20.dp)
                 .wrapContentHeight(),
             verticalAlignment = Alignment.Top,

@@ -1,6 +1,7 @@
 package com.jeckonly.pokemons.navigation.app
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -36,7 +37,9 @@ fun PokeApp() {
         ) {
            PokeNavGraph(modifier = Modifier
                .fillMaxSize()
-               .statusBarsPadding())
+               .statusBarsPadding()
+               .navigationBarsPadding()
+           )
         }
     }
 }

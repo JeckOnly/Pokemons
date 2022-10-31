@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +23,7 @@ import com.jeckonly.core_model.dto.NetworkConstant
 import com.jeckonly.core_model.dto.pokemondetail.Home
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
 import com.jeckonly.pokemons.R
+import com.jeckonly.pokemons.design.component.button.UpwardFloatingActionButton
 import com.jeckonly.pokemons.design.component.dialog.TitleBody1ButtonDialog
 import com.jeckonly.pokemons.design.component.dialog.TitleBody2ButtonDialog
 import com.jeckonly.pokemons.design.component.pokemon.PokemonListItem
@@ -32,6 +35,7 @@ import com.jeckonly.util.LogUtil
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(onCLickPokemon: (String, Int) -> Unit, modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
@@ -71,6 +75,14 @@ fun HomeScreen(
         mutableStateOf(false)
     }
     val context = LocalContext.current
+
+    val firstItemVisible by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex == 0
+        }
+    }
+
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = listState, block = {
         //distinctUntilChanged过滤掉连续相同值，其实相当于做了缓冲
@@ -152,7 +164,6 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .navigationBarsPadding()
             ) {
                 items(
                     items = pokemonItems,
@@ -173,6 +184,14 @@ fun HomeScreen(
                 }
             }
         }
+        UpwardFloatingActionButton(
+            visible = !firstItemVisible,
+            onClick = {
+                scope.launch {
+                    listState.animateScrollToItem(0, 0)
+                }
+            }
+        )
     }
     HomeScreenDialog(showDialog = showDialog, hasDownload = hasDownload, onClickDownload = onClickDownload) {
         showDialog = false
