@@ -69,6 +69,7 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, onCLickPokemon: (String, Int) 
                                 }
 
                                 // NOTE 判断背景颜色和默认的文本颜色的对比度是否足够，不够的话再选择适合的颜色
+                                // https://medium.com/@anthony.st91/calculate-contrast-between-two-colors-in-android-2fc0db879fa7
                                 val colorIsOk = ColorContrastUtil.isColorContrastOk(Blue10.toArgb(), rgbBackgroundColor.toArgb())
                                 if (!colorIsOk) {
                                     palette?.dominantSwatch?.bodyTextColor?.let {
