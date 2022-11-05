@@ -13,12 +13,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
+import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.jeckonly.core_model.ui.home.PokemonInfoUI
@@ -42,7 +44,6 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, onCLickPokemon: (String, Int) 
         Column(
             modifier = Modifier.padding(10.dp)
         ) {
-            // fixme 没有网络的时候为白色，placeholder不起作用
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .allowHardware(false)
@@ -66,6 +67,7 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, onCLickPokemon: (String, Int) 
                     )
                     .build(),
                 placeholder = painterResource(id = R.drawable.placeholder),
+                error = painterResource(id = R.drawable.placeholder),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -78,7 +80,9 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, onCLickPokemon: (String, Int) 
                 text = pokemonInfoUI.name,
                 color = MaterialTheme.colors.onSurface,
                 fontSize = 18.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -96,7 +100,7 @@ fun PokemonListItem(pokemonInfoUI: PokemonInfoUI, onCLickPokemon: (String, Int) 
 fun PreviewPokemonListItem() {
     val pokemonInfoUI = remember {
         PokemonInfoUI(
-            "spearow",
+            "spearowwwwwww",
             "https://pokeapi.co/api/v2/pokemon/21/",
             21
         )
