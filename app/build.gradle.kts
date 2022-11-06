@@ -13,8 +13,8 @@ android {
         applicationId = "com.jeckonly.pokemons"
         minSdk = 23
         targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "v1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
