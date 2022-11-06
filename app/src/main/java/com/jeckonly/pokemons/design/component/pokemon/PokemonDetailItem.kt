@@ -5,6 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -16,7 +17,7 @@ fun PokemonDetailItem(itemName: String, modifier: Modifier = Modifier, itemConte
         modifier = modifier.padding(start = 20.dp, end = 20.dp),
         contentAlignment = Alignment.TopStart
     ) {
-        Text(text = itemName, color = Gray10, fontSize = 13.sp)
+        Text(text = itemName, color = Gray10, fontSize = 16.sp)
         Box(modifier = Modifier.padding(start = 110.dp)) {
             itemContent()
         }

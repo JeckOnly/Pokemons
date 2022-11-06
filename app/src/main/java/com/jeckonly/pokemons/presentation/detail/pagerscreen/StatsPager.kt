@@ -3,11 +3,13 @@ package com.jeckonly.pokemons.presentation.detail.pagerscreen
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -82,9 +84,10 @@ fun PagerScope.StatsPager(
                         progress = progress,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(6.dp),
+                            .clip(RoundedCornerShape(30))
+                            .height(9.dp),
                         color = statsUI.color,
-                        backgroundColor = statsUI.color.copy(alpha = 0.4f)
+                        backgroundColor = statsUI.color.copy(alpha = 0.1f)
                     )
                 }
             }
