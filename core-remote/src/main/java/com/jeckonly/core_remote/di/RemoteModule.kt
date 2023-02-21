@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 
@@ -29,7 +30,7 @@ object RemoteModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl("https://pokeapi.co/api/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }

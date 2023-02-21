@@ -46,6 +46,8 @@ dependencies {
 //    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
     // gson
     implementation("com.squareup.retrofit2:converter-gson:$retrofit2_version")
+    // moshi
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     // sanwich
     api("com.github.skydoves:sandwich:1.3.0")
 }
